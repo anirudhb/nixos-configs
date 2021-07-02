@@ -1,6 +1,24 @@
 { config, pkgs, lib, ... }:
 
 rec {
+  imports = [
+    (
+      let
+        declCachix = builtins.fetchTarball "https://github.com/jonascarpay/declarative-cachix/archive/a2aead56e21e81e3eda1dc58ac2d5e1dc4bf05d7.tar.gz";
+      in import "${declCachix}/home-manager.nix"
+    )
+  ];
+
+  caches.cachix = [
+    "nix-community"
+  ];
+
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -33,8 +51,7 @@ rec {
     firefox
     python39
     clang_12
-    neovim
-    neovim-qt
+    #neovim-qt
     curl
     vscode
     slack
@@ -68,6 +85,53 @@ rec {
         hostname = "github.com";
         identityFile = "~/.ssh/github_rsa";
       };
+    };
+  };
+
+  programs.neovim = {
+    enable = true;
+    package = pkgs.neovim-nightly;
+    extraConfig = builtins.readFile ../init.vim;
+    extraPackages = [ pkgs.fzf ];
+    extraPython3Packages = ps: with ps; [
+      pynvim
+    ];
+    configure = {
+      plug.plugins = with pkgs.vimPlugins; [
+        deoplete-nvim
+        ale
+
+        nvim-lspconfig
+        deoplete-lsp
+        lsp_signature-nvim
+
+        float-preview-nvim
+
+        fzf-vim
+        nerdtree
+
+        base16-vim
+
+        vim-airline
+        vim-airline-themes
+
+        vim-polyglot
+        vim-flutter
+        vim-vsnip
+        vim-vsnip-integ
+
+        vim-fugitive
+
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "recents-nvim";
+          src = pkgs.fetchFromGitHub {
+            owner = "anirudhb";
+            repo = "recents.nvim";
+            rev = "51fe3521d6fa2fae5d383329305b4261ea2442de";
+            sha256 = "15s88fng72zm28fj18b9zk5slwmkxiqr92fsj4hfyva94w960a78";
+          };
+        })
+      ];
     };
   };
 }
