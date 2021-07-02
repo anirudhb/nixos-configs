@@ -51,7 +51,6 @@ rec {
     firefox
     python39
     clang_12
-    #neovim-qt
     curl
     vscode
     slack

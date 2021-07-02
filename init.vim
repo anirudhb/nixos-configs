@@ -51,39 +51,7 @@ endif
 " 	\| PlugInstall --sync | source '~/.config/nvim/init.vim'
 " \| endif
 
-": Plugins
-" call plug#begin(stdpath('data') . '/plugged')
-" 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'dense-analysis/ale'
-" 
-" Plug 'neovim/nvim-lspconfig'
-" Plug 'deoplete-plugins/deoplete-lsp'
-" Plug 'ray-x/lsp_signature.nvim'
-" 
-" Plug 'ncm2/float-preview.nvim'
-" 
-" Plug 'junegunn/fzf'
-" Plug 'scrooloose/nerdtree'
-" 
-" Plug 'chriskempson/base16-vim'
-" 
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" 
-" Plug 'sheerun/vim-polyglot'
-" Plug 'thosakwe/vim-flutter'
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
-" 
-" Plug 'tpope/vim-fugitive'
-" 
-" Plug 'anirudhb/recents.nvim'
-" "Plug '~\Desktop\Git\recents.nvim'
-" 
-" "Plug '\\wsl$\Ubuntu-20.04\home\anirudh\yes\recents.nvim'
-" 
-" call plug#end()
+": Plugins have moved to home/home.nix!
 
 filetype plugin indent on
 
