@@ -52,9 +52,9 @@ info "Installing home-manager..."
 NIXOS_VERSION="21.05"
 
 if command -v nixos-version &>/dev/null; then
-	info "nixos-version not found, assuming Nix version is 21.05"
-else
 	NIXOS_VERSION="$(nixos-version | cut -d. -f1-2)"
+else
+	info "nixos-version not found, assuming Nix version is 21.05"
 fi
 
 nix-channel --add "https://github.com/nix-community/home-manager/archive/release-$NIXOS_VERSION.tar.gz" home-manager
