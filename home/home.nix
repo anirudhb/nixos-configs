@@ -56,6 +56,7 @@ rec {
     slack
     google-chrome
     discord
+    direnv
   ];
 
   programs.git = {
@@ -133,4 +134,8 @@ rec {
       ];
     };
   };
+
+  services.lorri.enable = true;
+
+  home.file.".bashrc".text = builtins.readFile ./bashrc.sh;
 }
