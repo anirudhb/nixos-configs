@@ -137,5 +137,5 @@ rec {
 
   services.lorri.enable = true;
 
-  home.file.".bashrc".text = builtins.readFile ./bashrc.sh;
+  home.file.".bashrc".text = builtins.readFile ../bashrc.sh;
 }

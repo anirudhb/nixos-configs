@@ -45,7 +45,7 @@ fi
 
 info "Creating home-manager config symlink..."
 
-ln -s "$HOME/$NAME" "$HOME/.config/nixpkgs"
+ln -s "$HOME/$NAME/home" "$HOME/.config/nixpkgs"
 
 info "Installing home-manager..."
 
