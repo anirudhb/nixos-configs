@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
+let
+
+  isMacOS = lib.hasSuffix "darwin" builtins.currentSystem;
+
+in
 
 rec {
   imports = [
@@ -7,7 +12,7 @@ rec {
         declCachix = builtins.fetchTarball "https://github.com/jonascarpay/declarative-cachix/archive/a2aead56e21e81e3eda1dc58ac2d5e1dc4bf05d7.tar.gz";
       in import "${declCachix}/home-manager.nix"
     )
-  ];
+  ] ++ (if isMacOS then [ ./macos.nix ] else []);
 
   caches.cachix = [
     "nix-community"
@@ -25,7 +30,7 @@ rec {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "anirudh";
-  home.homeDirectory = "/home/anirudh";
+  home.homeDirectory = if isMacOS then "/Users/anirudh" else "/home/anirudh";
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -37,26 +42,13 @@ rec {
   # changes in each release.
   home.stateVersion = "21.05";
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode"
-    "google-chrome"
-    "slack"
-    "discord"
-  ];
-
   home.packages = with pkgs; [
     htop
     neofetch
     fortune
-    firefox
     python39
     clang_12
     curl
-    vscode
-    slack
-    google-chrome
-    discord
-    direnv
   ];
 
   programs.git = {
@@ -73,10 +65,10 @@ rec {
     enable = true;
   };
 
-  services.gpg-agent = {
-    enable = true;
-    pinentryFlavor = "qt";
-  };
+  #services.gpg-agent = {
+  #  enable = true;
+  #  pinentryFlavor = "qt";
+  #};
 
   programs.ssh = {
     enable = true;
@@ -135,7 +127,13 @@ rec {
     };
   };
 
-  services.lorri.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  #services.lorri.enable = true;
 
   home.file.".bashrc".text = builtins.readFile ../bashrc.sh;
+  #home.file.".zshrc".text = builtins.readFile ../zshrc.sh;
 }
