@@ -132,8 +132,17 @@ rec {
     nix-direnv.enable = true;
   };
 
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      add_newline = true;
+    };
+  };
+
   #services.lorri.enable = true;
 
   home.file.".bashrc".text = builtins.readFile ../bashrc.sh;
   #home.file.".zshrc".text = builtins.readFile ../zshrc.sh;
+  home.sessionVariables.EDITOR = "nvim";
 }

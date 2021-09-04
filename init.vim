@@ -65,7 +65,7 @@ function on_attach2(client, bufnr)
 	require'lsp_signature'.on_attach()
 end
 
-require'lspconfig'.clangd.setup{cmd={"clangd-11","--background-index"}, on_attach=on_attach2}
+require'lspconfig'.clangd.setup{cmd={"clangd","--background-index"}, on_attach=on_attach2}
 require'lspconfig'.gopls.setup{on_attach=on_attach2}
 require'lspconfig'.rust_analyzer.setup{
 	cmd = { "C:/Users/anirudh/AppData/Roaming/Code/User/globalStorage/matklad.rust-analyzer/rust-analyzer-x86_64-pc-windows-msvc.exe" },
