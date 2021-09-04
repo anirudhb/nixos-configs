@@ -12,7 +12,7 @@ rec {
         declCachix = builtins.fetchTarball "https://github.com/jonascarpay/declarative-cachix/archive/a2aead56e21e81e3eda1dc58ac2d5e1dc4bf05d7.tar.gz";
       in import "${declCachix}/home-manager.nix"
     )
-  ] ++ (if isMacOS then [ ./macos.nix ] else []);
+  ] ++ (lib.optionals isMacOS [ ./macos.nix ]);
 
   caches.cachix = [
     "nix-community"
