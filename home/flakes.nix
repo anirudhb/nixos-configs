@@ -1,10 +1,7 @@
 { config, lib, pkgs, ... }:
 let
-
   cfg = config.flakes;
-
-in
-with lib; {
+in with lib; {
   options.flakes = {
     enable = mkOption {
       type = types.bool;
@@ -28,5 +25,7 @@ with lib; {
           experimental-features = nix-command flakes
         '';
     };
+
+    programs.direnv.nix-direnv.enableFlakes = true;
   }]);
 }
