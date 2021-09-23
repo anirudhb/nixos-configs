@@ -14,8 +14,26 @@ in with lib; {
   };
 
   config = mkIf cfg.enable (mkMerge [{
+    nixpkgs.overlays = [
+      (self: super: {
+        nixUnstable = super.nixUnstable.overrideAttrs (oldAttrs: oldAttrs // {
+          patches = [ ./../unset-is-macho.patch ];
+          meta = (oldAttrs.meta or {}) // {
+            priority = 10;
+          };
+        });
+      })
+    ];
+
     home.packages = with pkgs; [
       nixUnstable
+      #(nixUnstable.overrideAttrs (oldAttrs: oldAttrs // {
+      #  patches = [ ./../unset-is-macho.patch ];
+      #  meta = (oldAttrs.meta or {}) // {
+      #    priority = 10;
+      #  };
+      #}))
+      #nixFlakes
     ];
 
     home.file.nixConf = {
