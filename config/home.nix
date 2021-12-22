@@ -1,28 +1,11 @@
-{ pkgs, lib, ... }:
-let
-
-  isMacOS = lib.hasSuffix "darwin" builtins.currentSystem;
-
-in
-
-rec {
+{ pkgs, lib, ... }: rec {
   imports = [
-    (
-      let
-        declCachix = builtins.fetchTarball "https://github.com/jonascarpay/declarative-cachix/archive/a2aead56e21e81e3eda1dc58ac2d5e1dc4bf05d7.tar.gz";
-      in import "${declCachix}/home-manager.nix"
-    )
     ./flakes.nix
-  ] ++ (lib.optionals isMacOS [ ./macos.nix ]);
+  ]
 
   caches.cachix = [
-    "nix-community"
-  ];
-
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
+    { name = "nix-community"; sha256 = "00lpx4znr4dd0cc4w4q8fl97bdp7q19z1d3p50hcfxy26jz5g21g"; }
+    { name = "hackclub"; sha256 = "13rfgdf1kkgm3ss9zg6kz9kahwk0a5k0ij9zkvgvrqdsnxn7jwwg"; }
   ];
 
   # Let Home Manager install and manage itself.
@@ -30,21 +13,6 @@ rec {
 
   # Enable flakes!!
   flakes.enable = true;
-
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "anirudh";
-  home.homeDirectory = if isMacOS then "/Users/anirudh" else "/home/anirudh";
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "21.05";
 
   home.packages = with pkgs; [
     htop

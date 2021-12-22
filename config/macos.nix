@@ -3,8 +3,7 @@
 rec {
   programs.zsh = {
     enable = true;
-    # FIXME: Uncomment this once we get to 21.11
-    # enableSyntaxHighlighting = true;
+    enableSyntaxHighlighting = true;
     # FIXME: powerlevel10k
     # plugins = [
     #   {

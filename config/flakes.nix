@@ -25,7 +25,5 @@ in with lib; {
           experimental-features = nix-command flakes
         '';
     };
-
-    programs.direnv.nix-direnv.enableFlakes = true;
   }]);
 }
