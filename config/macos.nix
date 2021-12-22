@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 rec {
   programs.zsh = {
@@ -37,4 +37,12 @@ source ~/.profile
   home.file.".gnupg/gpg-agent.conf".text = ''
     pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
   '';
+
+  home.file."Applications/home-manager".source = let
+    apps = pkgs.buildEnv {
+      name = "home-manager-applications";
+      paths = config.home.packages;
+      pathsToLink = "/Applications";
+    };
+  in "${apps}/Applications";
 }
