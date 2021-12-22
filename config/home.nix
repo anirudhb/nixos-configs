@@ -21,6 +21,7 @@
     python39
     clang_12
     curl
+    aces
   ];
 
   programs.git = {
