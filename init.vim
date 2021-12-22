@@ -89,6 +89,11 @@ require'lspconfig'.rust_analyzer.setup{
 require'lspconfig'.tsserver.setup{on_attach=on_attach2}
 require'lspconfig'.vimls.setup{on_attach=on_attach2}
 require'lspconfig'.pyright.setup{on_attach=on_attach2}
+if vim.fn.executable('stack') then
+	require'lspconfig'.hls.setup{cmd={"stack","exec","--","haskell-language-server-wrapper","--lsp"},on_attach=on_attach2}
+else
+	require'lspconfig'.hls.setup{on_attach=on_attach2}
+end
 
 require'recents'.set_art([[
 888b    888                            d8b
