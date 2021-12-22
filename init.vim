@@ -183,6 +183,7 @@ let g:airline#extensions#languageclient#enabled = 1
 au FileType python se ts=4 sw=4 et smarttab
 au FileType haskell se ts=4 sw=4 et smarttab
 au FileType dart se ts=2 sw=2 et smarttab
+au FileType rust se ts=8 sw=8 noet smarttab
 
 " Format on save
 " FIXME: use native neovim lsp
