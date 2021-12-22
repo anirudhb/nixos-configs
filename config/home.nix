@@ -106,7 +106,7 @@
     enable = true;
     package = pkgs.neovim-nightly;
     extraConfig = builtins.readFile ../init.vim;
-    extraPackages = [ pkgs.fzf ];
+    extraPackages = with pkgs; [ fzf nodePackages.vim-language-server ];
     extraPython3Packages = ps: with ps; [
       pynvim
     ];
