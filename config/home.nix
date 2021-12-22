@@ -33,19 +33,48 @@
     };
   };
 
-  programs.kitty = {
+  programs.alacritty = {
     enable = true;
-    font = {
-      name = "Portland Mono";
-      size = 14;
-    };
     settings = {
-      font_features = "PortlandMono-Regular +liga +calt";
-      adjust_column_width = "100%";
-      adjust_line_height = "100%";
-      copy_on_select = "yes";
-      macos_option_as_alt = "yes";
-      macos_thicken_font = "0.75";
+      font = {
+        normal.family = "Portland Mono";
+        size = 14;
+      };
+      selection.save_to_clipboard = true;
+      mouse.hide_when_typing = true;
+      # snazzy
+      draw_bold_text_with_bright_colors = true;
+      colors = {
+        primary = {
+          background = "#282a36";
+          foreground = "#eff0eb";
+        };
+        cursor.cursor = "#97979b";
+        selection = {
+          text = "#282a36";
+          background = "#feffff";
+        };
+        normal = {
+          black = "#282a36";
+          red = "#ff5c57";
+          green = "#5af78e";
+          yellow = "#f3f99d";
+          blue = "#57c7ff";
+          magenta = "#ff6ac1";
+          cyan = "#9aedfe";
+          white = "#f1f1f0";
+        };
+        bright = {
+          black = "#686868";
+          red = "#ff5c57";
+          green = "#5af78e";
+          yellow = "#f3f99d";
+          blue = "#57c7ff";
+          magenta = "#ff6ac1";
+          cyan = "#9aedfe";
+          white = "#eff0eb";
+        };
+      };
     };
   };
 
