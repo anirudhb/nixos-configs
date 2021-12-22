@@ -33,6 +33,22 @@
     };
   };
 
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "Portland Mono";
+      size = 14;
+    };
+    settings = {
+      font_features = "PortlandMono-Regular +liga +calt";
+      adjust_column_width = "100%";
+      adjust_line_height = "100%";
+      copy_on_select = "yes";
+      macos_option_as_alt = "yes";
+      macos_thicken_font = "0.75";
+    };
+  };
+
   programs.gpg = {
     enable = true;
   };
