@@ -88,6 +88,7 @@ require'lspconfig'.rust_analyzer.setup{
 }
 require'lspconfig'.tsserver.setup{on_attach=on_attach2}
 require'lspconfig'.vimls.setup{on_attach=on_attach2}
+require'lspconfig'.pyright.setup{on_attach=on_attach2}
 
 require'recents'.set_art([[
 888b    888                            d8b
