@@ -11,8 +11,6 @@ endfunction
 syntax on
 let g:mapleader=';'
 
-" let g:python3_host_prog='/usr/bin/python3'
-
 if has('win32')
 	let g:python3_host_prog='D:\Python3\python.exe'
 
@@ -22,11 +20,6 @@ if has('win32')
 	se shellredir=\|\ Out-File\ -Encoding\ UTF8
 endif
 
-" se laststatus=2
-se statusline=%f\ %m\ %r\ %h\ %w\ File:\ %p%%\ Win:\ %P\ %l/%L@%c%=%=%{g:colors_name}\ %y\ %q\ Character:\ %b\ (%B)
-
-"se guifont=Cascadia\ Code\ PL:h16
-"se guifont=Consolas:h16
 se guifont=DelugiaCode\ NF:h16
 
 ": Treat asm files as NASM files
@@ -46,10 +39,6 @@ if !has('win32')
 		autocmd VimEnter * PlugInstall --sync | source '~/.config/nvim/init.vim'
 	endif
 endif
-"
-" autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-" 	\| PlugInstall --sync | source '~/.config/nvim/init.vim'
-" \| endif
 
 ": Plugins have moved to home/home.nix!
 
@@ -68,8 +57,6 @@ end
 require'lspconfig'.clangd.setup{cmd={"clangd","--background-index"}, on_attach=on_attach2}
 require'lspconfig'.gopls.setup{on_attach=on_attach2}
 require'lspconfig'.rust_analyzer.setup{
-	--cmd = { "C:/Users/anirudh/AppData/Roaming/Code/User/globalStorage/matklad.rust-analyzer/rust-analyzer-x86_64-pc-windows-msvc.exe" },
-	--cmd = { "rustup", "run", "nightly", "rust-analyzer" },
 	cmd = { "rust-analyzer" },
 	settings = {
 		["rust-analyzer"] = {
@@ -110,7 +97,6 @@ out of the box
 ]])
 EOF
 
-" let g:float_preview#max_width = 30
 let g:float_preview#auto_close = 1
 
 let g:ale_linters = {
@@ -128,7 +114,6 @@ let g:ale_fixers = {
 \ }
 let g:ale_sign_error = '!'
 let g:ale_sign_warning = '-'
-" let g:ale_rust_cargo_use_clippy = 1
 
 let g:deoplete#enable_at_startup = 1
 
@@ -139,23 +124,6 @@ imap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)'      : 
 smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)'      : '<Tab>'
 imap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'           : '<S-Tab>'
 smap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'           : '<S-Tab>'
-
-": FIXME: replace with native neovim lsp mappings
-" nnoremap <leader>ca <cmd>call LanguageClient#textDocument_codeAction()<CR>
-" nnoremap <leader>cdh <cmd>call LanguageClient#clearDocumentHighlight()<CR>
-" nnoremap <leader>cl <cmd>call LanguageClient#handleCodeLensAction()<CR>
-" nnoremap <leader>cm <cmd>call LanguageClient_contextMenu()<CR>
-" nnoremap <leader>df <cmd>call LanguageClient#textDocument_definition()<CR>
-" nnoremap <leader>dh <cmd>call LanguageClient#textDocument_documentHighlight()<CR>
-" nnoremap <leader>ds <cmd>call LanguageClient#textDocument_documentSymbol()<CR>
-" nnoremap <leader>ee <cmd>call LanguageClient#explainErrorAtPoint()<CR>
-" nnoremap <leader>f <cmd>call LanguageClient#textDocument_formatting()<CR>
-" nnoremap <leader>h <cmd>call LanguageClient#textDocument_hover()<CR>
-" nnoremap <leader>i <cmd>call LanguageClient#textDocument_implementation()<CR>
-" nnoremap <leader>rf <cmd>call LanguageClient#textDocument_references()<CR>
-" nnoremap <leader>rn <cmd>call LanguageClient#textDocument_rename()<CR>
-" nnoremap <leader>td <cmd>call LanguageClient#textDocument_typeDefinition()<CR>
-" nnoremap <leader>ws <cmd>call LanguageClient#workspace_symbol()<CR>
 
 nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <leader>df <cmd>lua vim.lsp.buf.definition()<CR>
@@ -181,8 +149,6 @@ color base16-snazzy
 " Airline config
 " -----------------------------------------------------------------------------
 let g:airline_powerline_fonts=1
-"let g:airline_symbols_ascii = 1
-"let g:airline_skip_empty_sections=1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#languageclient#enabled = 1
 
