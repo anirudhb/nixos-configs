@@ -70,10 +70,6 @@ function ra_update_server_status(err, result, ctx, config)
 end
 
 function ra_update_analysis_status(err, result, ctx, config)
-	--print(result["token"])
-	--if result["token"] ~= "ra-update-token" then
-	--	return
-	--end
 	if string.match(result["token"], "^rustAnalyzer/") == nil then
 		return
 	end
@@ -95,48 +91,10 @@ function ra_update_analysis_status(err, result, ctx, config)
 	end
 end
 
---function ra_create_analysis_status(err, result, ctx, config)
---	return { workDoneToken = "ra-update-token" }, nil
---end
-
---function ra_update_analysis_status(err, result, ctx, config)
---	if err ~= nil then
---		vim.g["ra_analysis_status"] = "ERR!" --.. vim.lsp.rpc.format_rpc_error(err)
---		print(vim.lsp.rpc.format_rpc_error(err))
---	else
---		vim.g["ra_analysis_status"] = result
---	end
---end
-
---function ra_request_analysis_update()
---	--local lsp_root = vim.lsp.buf.list_workspace_folders()[1]
---	--local expanded_file = vim.fn.expand("%:p")
---	--local document_uri = "file://" .. expanded_file:gsub(lsp_root .. "/", "")
---	--vim.lsp.buf_request(0, "rust-analyzer/analyzerStatus", {
---	--	textDocument = { uri = "file://" .. expanded_file }
---	--}, ra_update_analysis_status)
---	vim.lsp.buf_request(0, "$/progress", {
---
---	}, ra_update_analysis_status)
---end
-
 require'lspconfig'.clangd.setup{cmd={"clangd","--background-index"}, on_attach=on_attach2}
 require'lspconfig'.gopls.setup{on_attach=on_attach2}
 require'lspconfig'.rust_analyzer.setup{
 	cmd = { "rust-analyzer" },
-	--settings = {
-	--	["rust-analyzer"] = {
-	--		cargo = {
-	--			loadOutDirsFromCheck = true
-	--		},
-	--		procMacro = {
-	--			enable = true
-	--		},
-	--		experimental = {
-	--			procAttrMacros = true
-	--		}
-	--	}
-	--},
 	settings = {
 		["rust-analyzer"] = {
 			lruCapacity = 16384
@@ -153,7 +111,6 @@ require'lspconfig'.rust_analyzer.setup{
 	},
 	handlers = {
 		["experimental/serverStatus"] = ra_update_server_status,
-		--["window/workDoneProgress/create"] = ra_create_server_status,
 		["$/progress"] = ra_update_analysis_status
 	}
 }
