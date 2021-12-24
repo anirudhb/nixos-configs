@@ -54,24 +54,108 @@ function on_attach2(client, bufnr)
 	require'lsp_signature'.on_attach()
 end
 
+function ra_update_server_status(err, result, ctx, config)
+	local status = result["message"]
+	if status == nil then
+		status = "ready"
+	end
+	local health = result["health"]
+	local status_string
+	if result["quiescent"] then
+		status_string = "[" .. health .. "*" .. status .. "] rust-analyzer"
+	else
+		status_string = "[" .. health .. "." .. status .. "] rust-analyzer"
+	end
+	vim.g["ra_status"] = status_string
+end
+
+function ra_update_analysis_status(err, result, ctx, config)
+	--print(result["token"])
+	--if result["token"] ~= "ra-update-token" then
+	--	return
+	--end
+	if string.match(result["token"], "^rustAnalyzer/") == nil then
+		return
+	end
+	local res = result["value"]
+	if res["kind"] == "begin" then
+		vim.g["ra_analysis_title"] = res["title"]
+		if res["message"] ~= nil then
+			vim.g["ra_analysis_message"] = res["message"]
+		end
+	end
+	if res["kind"] == "report" then
+		if res["message"] ~= nil then
+			vim.g["ra_analysis_message"] = res["message"]
+		end
+	end
+	if res["kind"] == "end" then
+		vim.g["ra_analysis_title"] = ""
+		vim.g["ra_analysis_message"] = ""
+	end
+end
+
+--function ra_create_analysis_status(err, result, ctx, config)
+--	return { workDoneToken = "ra-update-token" }, nil
+--end
+
+--function ra_update_analysis_status(err, result, ctx, config)
+--	if err ~= nil then
+--		vim.g["ra_analysis_status"] = "ERR!" --.. vim.lsp.rpc.format_rpc_error(err)
+--		print(vim.lsp.rpc.format_rpc_error(err))
+--	else
+--		vim.g["ra_analysis_status"] = result
+--	end
+--end
+
+--function ra_request_analysis_update()
+--	--local lsp_root = vim.lsp.buf.list_workspace_folders()[1]
+--	--local expanded_file = vim.fn.expand("%:p")
+--	--local document_uri = "file://" .. expanded_file:gsub(lsp_root .. "/", "")
+--	--vim.lsp.buf_request(0, "rust-analyzer/analyzerStatus", {
+--	--	textDocument = { uri = "file://" .. expanded_file }
+--	--}, ra_update_analysis_status)
+--	vim.lsp.buf_request(0, "$/progress", {
+--
+--	}, ra_update_analysis_status)
+--end
+
 require'lspconfig'.clangd.setup{cmd={"clangd","--background-index"}, on_attach=on_attach2}
 require'lspconfig'.gopls.setup{on_attach=on_attach2}
 require'lspconfig'.rust_analyzer.setup{
 	cmd = { "rust-analyzer" },
+	--settings = {
+	--	["rust-analyzer"] = {
+	--		cargo = {
+	--			loadOutDirsFromCheck = true
+	--		},
+	--		procMacro = {
+	--			enable = true
+	--		},
+	--		experimental = {
+	--			procAttrMacros = true
+	--		}
+	--	}
+	--},
 	settings = {
 		["rust-analyzer"] = {
-			cargo = {
-				loadOutDirsFromCheck = true
-			},
-			procMacro = {
-				enable = true
-			},
-			experimental = {
-				procAttrMacros = true
-			}
+			lruCapacity = 16384
 		}
 	},
-	on_attach = on_attach2
+	on_attach = on_attach2,
+	capabilities = {
+		window = {
+			workDoneProgress = true
+		},
+		experimental = {
+			serverStatusNotification = true
+		}
+	},
+	handlers = {
+		["experimental/serverStatus"] = ra_update_server_status,
+		--["window/workDoneProgress/create"] = ra_create_server_status,
+		["$/progress"] = ra_update_analysis_status
+	}
 }
 require'lspconfig'.tsserver.setup{on_attach=on_attach2}
 require'lspconfig'.vimls.setup{on_attach=on_attach2}
@@ -150,7 +234,17 @@ color base16-snazzy
 " -----------------------------------------------------------------------------
 let g:airline_powerline_fonts=1
 let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#languageclient#enabled = 1
+let g:airline#extensions#nvimlsp#enabled = 1
+
+let g:ra_status = ''
+let g:ra_analysis_title = ''
+let g:ra_analysis_message = ''
+function GetRAStatus()
+	return g:ra_status . " / " . g:ra_analysis_title . " (" . g:ra_analysis_message . ")"
+endfunction
+
+call airline#parts#define_function('ra_status', 'GetRAStatus')
+let g:airline_section_y = airline#section#create_right(['ffenc', 'ra_status'])
 
 " Preferred indentation for certain filetypes
 au FileType python se ts=4 sw=4 et smarttab
