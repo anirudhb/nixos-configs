@@ -1,7 +1,7 @@
 { pkgs, lib, ... }: rec {
   imports = [
     ./flakes.nix
-  ]
+  ];
 
   caches.cachix = [
     { name = "nix-community"; sha256 = "00lpx4znr4dd0cc4w4q8fl97bdp7q19z1d3p50hcfxy26jz5g21g"; }
@@ -98,6 +98,10 @@
       "haas.hackclub.com" = {
         hostname = "haas.hackclub.com";
         identityFile = "~/.ssh/old_haas_rsa";
+      };
+      "hackclub.app" = {
+        hostname = "hackclub.app";
+        identityFile = "~/.ssh/haas";
       };
     };
   };
