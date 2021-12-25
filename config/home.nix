@@ -95,12 +95,12 @@
         hostname = "github.com";
         identityFile = "~/.ssh/github_rsa";
       };
-      "haas.hackclub.com" = {
-        hostname = "haas.hackclub.com";
+      "old_haas" = {
+        hostname = "45.55.45.5";
         identityFile = "~/.ssh/old_haas_rsa";
       };
-      "hackclub.app" = {
-        hostname = "hackclub.app";
+      "haas.hackclub.com" = {
+        hostname = "haas.hackclub.com";
         identityFile = "~/.ssh/haas";
       };
     };
