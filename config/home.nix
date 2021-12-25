@@ -22,6 +22,7 @@
     clang_12
     curl
     aces
+    nix-fi
   ];
 
   programs.git = {

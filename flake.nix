@@ -31,6 +31,7 @@
           nixpkgs.overlays = [
             neovim-nightly-overlay.overlay
             hackclub-overlay.overlay.x86_64-darwin
+            (import ./overlay.nix)
           ];
         };
       };
