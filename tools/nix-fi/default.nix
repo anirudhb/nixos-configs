@@ -5,7 +5,6 @@
     set -e
     set +u
     [[ -n "$FLAKERUS_DEBUG" ]] && set -x
-    set -u
     case $1 in
       -*) need_help=1;;
     esac
@@ -15,6 +14,7 @@
       echo "Initializes a flake and direnv with the given packages"
       exit
     fi
+    set -u
     echo "==> Querying name of system..."
     system=$(nix eval --impure --raw --expr "builtins.currentSystem")
     echo "==> Initializing flake..."
