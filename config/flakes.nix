@@ -15,7 +15,7 @@ in with lib; {
 
   config = mkIf cfg.enable (mkMerge [{
     home.packages = with pkgs; [
-      nixUnstable
+      nixVersions.nix_2_6
     ];
 
     home.file.nixConf = {

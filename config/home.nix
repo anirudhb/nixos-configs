@@ -22,6 +22,7 @@
     clang_12
     curl
     aces
+    ripgrep
     nix-fi
   ];
 
@@ -78,6 +79,16 @@
         };
       };
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    clock24 = true;
+    prefix = "C-a";
+    terminal = "screen-256color";
+    extraConfig = ''
+      set -as terminal-features ",*256col*:RGB"
+    '';
   };
 
   programs.gpg = {
