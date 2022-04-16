@@ -10,14 +10,16 @@
     declCachix.url = "github:jonascarpay/declarative-cachix";
     hackclub-overlay.url = "github:hackclub/nix-overlay";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    fenix.url = "github:nix-community/fenix";
   };
 
   outputs = { self, nixpkgs, home-manager
             , declCachix
             , hackclub-overlay
-            , neovim-nightly-overlay }: {
+            , neovim-nightly-overlay
+            , fenix }: {
     homeConfigurations = {
-      anirudh = home-manager.lib.homeManagerConfiguration {
+      anirudh = home-manager.lib.homeManagerConfiguration rec {
         system = "x86_64-darwin";
         homeDirectory = "/Users/anirudh";
         username = "anirudh";
@@ -33,6 +35,9 @@
             hackclub-overlay.overlay.x86_64-darwin
             (import ./overlay.nix)
           ];
+        };
+        extraSpecialArgs = {
+          fenix = fenix.packages.${system};
         };
       };
     };

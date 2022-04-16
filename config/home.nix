@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: rec {
+{ pkgs, lib, fenix, ... }: rec {
   imports = [
     ./flakes.nix
   ];
@@ -122,7 +122,12 @@
     enable = true;
     package = pkgs.neovim-nightly;
     extraConfig = builtins.readFile ../init.vim;
-    extraPackages = with pkgs; [ fzf nodePackages.vim-language-server ];
+    extraPackages = with pkgs; [
+      fzf
+      nodePackages.vim-language-server
+      fenix.rust-analyzer
+      clang-tools
+    ];
     extraPython3Packages = ps: with ps; [
       pynvim
     ];

@@ -117,7 +117,7 @@ require'lspconfig'.rust_analyzer.setup{
 require'lspconfig'.tsserver.setup{on_attach=on_attach2}
 require'lspconfig'.vimls.setup{on_attach=on_attach2}
 require'lspconfig'.pyright.setup{on_attach=on_attach2}
-require'lspconfig'.sourcekit.setup{cmd={"xcrun","sourcekit-lsp"},on_attach=on_attach2}
+require'lspconfig'.sourcekit.setup{cmd={"xcrun","sourcekit-lsp"},on_attach=on_attach2,root_dir=require'lspconfig'.util.root_pattern("Package.swift")}
 if vim.fn.executable('stack') then
 	require'lspconfig'.hls.setup{cmd={"stack","exec","--","haskell-language-server-wrapper","--lsp"},on_attach=on_attach2}
 else
