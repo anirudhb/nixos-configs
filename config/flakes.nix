@@ -14,10 +14,6 @@ in with lib; {
   };
 
   config = mkIf cfg.enable (mkMerge [{
-    home.packages = with pkgs; [
-      nixVersions.nix_2_6
-    ];
-
     home.file.nixConf = {
       target = ".config/nix/nix.conf";
       text =

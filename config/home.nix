@@ -1,4 +1,4 @@
-{ pkgs, lib, fenix, ... }: rec {
+{ pkgs, lib, fenix, nixpkgs-rev, ... }: rec {
   imports = [
     ./flakes.nix
   ];
@@ -13,6 +13,19 @@
 
   # Enable flakes!!
   flakes.enable = true;
+
+  nix.registry.nixpkgs = {
+    from = {
+      id = "nixpkgs";
+      type = "indirect";
+    };
+    to = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixpkgs";
+      rev = nixpkgs-rev;
+    };
+  };
 
   home.packages = with pkgs; [
     htop

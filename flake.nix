@@ -38,6 +38,11 @@
         };
         extraSpecialArgs = {
           fenix = fenix.packages.${system};
+          nixpkgs-rev = let
+            lockFile = builtins.fromJSON (builtins.readFile ./flake.lock);
+            rootNode = lockFile.nodes.${lockFile.root};
+            nixpkgsNode = lockFile.nodes.${rootNode.inputs.nixpkgs};
+          in nixpkgsNode.locked.rev;
         };
       };
     };
