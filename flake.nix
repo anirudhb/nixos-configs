@@ -20,24 +20,28 @@
             , fenix }: {
     homeConfigurations = {
       anirudh = home-manager.lib.homeManagerConfiguration rec {
-        system = "x86_64-darwin";
-        homeDirectory = "/Users/anirudh";
-        username = "anirudh";
-        stateVersion = "21.05";
-        configuration = {
-          imports = [
-            declCachix.homeManagerModules.declarative-cachix-experimental
-            ./config/home.nix
-            ./config/macos.nix
-          ];
-          nixpkgs.overlays = [
-            neovim-nightly-overlay.overlay
-            hackclub-overlay.overlay.x86_64-darwin
-            (import ./overlay.nix)
-          ];
-        };
+        pkgs = nixpkgs.legacyPackages.x86_64-darwin;
+        modules = [
+          declCachix.homeManagerModules.declarative-cachix-experimental
+          ./config/home.nix
+          ./config/macos.nix
+          {
+            nixpkgs.overlays = [
+              neovim-nightly-overlay.overlay
+              hackclub-overlay.overlay.x86_64-darwin
+              (import ./overlay.nix)
+            ];
+          }
+          {
+            home = {
+              username = "anirudh";
+              homeDirectory = "/Users/anirudh";
+              stateVersion = "21.05";
+            };
+          }
+        ];
         extraSpecialArgs = {
-          fenix = fenix.packages.${system};
+          fenix = fenix.packages.x86_64-darwin;
           nixpkgs-rev = let
             lockFile = builtins.fromJSON (builtins.readFile ./flake.lock);
             rootNode = lockFile.nodes.${lockFile.root};

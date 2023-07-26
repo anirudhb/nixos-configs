@@ -31,15 +31,6 @@ autocmd FileType mma setlocal filetype=objc
 
 nnoremap <C-P> :FZF<CR>
 
-" vim-plug auto-install
-if !has('win32')
-	let data_dir = stdpath('data') . '/site'
-	if empty(glob(data_dir . '/autoload/plug.vim'))
-		silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-		autocmd VimEnter * PlugInstall --sync | source '~/.config/nvim/init.vim'
-	endif
-endif
-
 ": Plugins have moved to home/home.nix!
 
 filetype plugin indent on
