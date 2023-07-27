@@ -4,8 +4,8 @@
   ];
 
   caches.cachix = [
-    { name = "nix-community"; sha256 = "00lpx4znr4dd0cc4w4q8fl97bdp7q19z1d3p50hcfxy26jz5g21g"; }
-    { name = "hackclub"; sha256 = "13rfgdf1kkgm3ss9zg6kz9kahwk0a5k0ij9zkvgvrqdsnxn7jwwg"; }
+    { name = "nix-community"; sha256 = "0m6kb0a0m3pr6bbzqz54x37h5ri121sraj1idfmsrr6prknc7q3x"; }
+    { name = "hackclub"; sha256 = "1x4pldwhaibrwxs3n1mjbmjma84llja6f3m7h7z62a6mcrjr0zy1"; }
   ];
 
   # Let Home Manager install and manage itself.
@@ -14,6 +14,7 @@
   # Enable flakes!!
   flakes.enable = true;
 
+  nix.package = pkgs.nixVersions.nix_2_16;
   nix.registry.nixpkgs = {
     from = {
       id = "nixpkgs";

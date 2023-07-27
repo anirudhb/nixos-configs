@@ -1,0 +1,43 @@
+diff --git a/contrib/flake.nix b/contrib/flake.nix
+index 57e56d0..a83e457 100644
+--- a/contrib/flake.nix
++++ b/contrib/flake.nix
+@@ -27,7 +27,28 @@
+     {
+       overlay = final: prev: {
+ 
+-        neovim = (final.neovim-unwrapped.override {
++        neovim = let
++          liblpeg = final.stdenv.mkDerivation {
++            pname = "liblpeg";
++            inherit (final.luajitPackages.lpeg) version meta src;
++
++            buildInputs = [ final.luajit ];
++
++            buildPhase = ''
++              sed -i makefile -e "s/CC = gcc/CC = clang/"
++              sed -i makefile -e "s/-bundle/-dynamiclib/"
++
++              make macosx
++            '';
++
++            installPhase = ''
++              mkdir -p $out/lib
++              mv lpeg.so $out/lib/lpeg.dylib
++            '';
++
++            nativeBuildInputs = [ final.fixDarwinDylibNames ];
++          };
++        in (final.neovim-unwrapped.override {
+           treesitter-parsers = pipe ../cmake.deps/deps.txt [
+             readFile
+             (splitString "\n")
+@@ -63,6 +84,7 @@
+             sed -i cmake.config/versiondef.h.in -e 's/@NVIM_VERSION_PRERELEASE@/-dev-${version}/'
+           '';
+           nativeBuildInputs = oa.nativeBuildInputs ++ [
++            liblpeg
+             final.libiconv
+           ];
+         });
+

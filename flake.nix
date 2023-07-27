@@ -27,9 +27,32 @@
           ./config/macos.nix
           {
             nixpkgs.overlays = [
-              neovim-nightly-overlay.overlay
+              #neovim-nightly-overlay.overlay
+              #(import ./pkgs/neovim-nightly.nix)
               hackclub-overlay.overlay.x86_64-darwin
               (import ./overlay.nix)
+              (let
+                pkgs = nixpkgs.legacyPackages.x86_64-darwin;
+                patchedNeovimTree = pkgs.applyPatches {
+                  src = pkgs.fetchFromGitHub {
+                    owner = "neovim";
+                    repo = "neovim";
+                    rev = "8fe9f41f7f9da2009d11855ec0548b9dbe548a69";
+                    hash = "sha256-P9A8ie/4zA5Hhk3OpJxzmqTefKeVxSQUOSMTxbyBM8U=";
+                  };
+                  patches = [ ./pkgs/neovim-flake.nix.patch ];
+                };
+                narHash = pkgs.lib.fileContents (pkgs.runCommand "${patchedNeovimTree.name}-narHash" {} ''
+                  ${pkgs.nixVersions.nix_2_16}/bin/nix --extra-experimental-features nix-command hash path --sri ${patchedNeovimTree} > $out
+                '');
+                neovimOverlay = (builtins.getFlake "file+file://${builtins.unsafeDiscardStringContext patchedNeovimTree}?dir=contrib&narHash=${builtins.unsafeDiscardStringContext narHash}").outputs.overlay;
+              in
+                final: prev: let
+                  out1 = neovimOverlay prev prev;
+                in out1 // {
+                  neovim-unwrapped = out1.neovim;
+                  neovim-nightly = out1.neovim;
+                })
             ];
           }
           {

@@ -14,12 +14,6 @@ in with lib; {
   };
 
   config = mkIf cfg.enable (mkMerge [{
-    home.file.nixConf = {
-      target = ".config/nix/nix.conf";
-      text =
-        ''
-          experimental-features = nix-command flakes
-        '';
-    };
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
   }]);
 }

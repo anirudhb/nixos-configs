@@ -3,7 +3,7 @@
 rec {
   programs.zsh = {
     enable = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     # FIXME: powerlevel10k
     # plugins = [
     #   {
