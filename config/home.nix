@@ -134,7 +134,8 @@
 
   programs.neovim = {
     enable = true;
-    package = pkgs.neovim-nightly;
+    # see flake.nix
+    # package = pkgs.neovim-nightly;
     extraConfig = builtins.readFile ../init.vim;
     extraPackages = with pkgs; [
       fzf
@@ -152,6 +153,7 @@
       nvim-lspconfig
       deoplete-lsp
       lsp_signature-nvim
+      fidget-nvim
 
       float-preview-nvim
 
