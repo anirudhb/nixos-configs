@@ -33,7 +33,7 @@
     neofetch
     fortune
     python39
-    clang_12
+
     curl
     aces
     ripgrep
@@ -139,7 +139,10 @@
     extraConfig = builtins.readFile ../init.vim;
     extraPackages = with pkgs; [
       fzf
+      pyright
+      nodePackages.typescript-language-server
       nodePackages.vim-language-server
+      terraform-ls
       fenix.rust-analyzer
       clang-tools
     ];

@@ -41,8 +41,6 @@ inoremap <C-c> <ESC>
 inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
 
 lua << EOF
-require'fidget'.setup{}
-
 function on_attach2(client, bufnr)
 	require'lsp_signature'.on_attach()
 end
@@ -50,12 +48,12 @@ end
 require'lspconfig'.clangd.setup{cmd={"clangd","--background-index"}, on_attach=on_attach2}
 require'lspconfig'.gopls.setup{on_attach=on_attach2}
 require'lspconfig'.rust_analyzer.setup{
-	cmd = { "rust-analyzer" },
-	settings = {
-		["rust-analyzer"] = {
-			lruCapacity = 16384
-		}
-	},
+	--cmd = { "rust-analyzer" },
+	--settings = {
+	--	["rust-analyzer"] = {
+	--		lruCapacity = 16384
+	--	}
+	--},
 	on_attach = on_attach2,
 }
 require'lspconfig'.tsserver.setup{on_attach=on_attach2}
@@ -80,6 +78,8 @@ require'recents'.set_art([[
 
 out of the box
 ]])
+
+require'fidget'.setup{}
 EOF
 
 let g:float_preview#auto_close = 1
